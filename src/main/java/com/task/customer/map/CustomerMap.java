@@ -11,33 +11,27 @@ import java.util.Date;
 public class CustomerMap {
     private CustomerRepository customerRepository;
 
-    public CustomerMap(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
+    public CustomerMap(CustomerRepository customerRepository) {this.customerRepository = customerRepository;}
 
     public Customer map(CustomerDTO customerDTO) {
         Customer customer = new Customer();
-        customer.setCreated(customerDTO.getCreated());
-        customer.setUpdated(customerDTO.getUpdated());
+        Date dateNow = new Date();
+        long created = dateNow.getTime();
         customer.setFullName(customerDTO.getFullName());
         customer.setPhone(customerDTO.getPhone());
         customer.setId(customerDTO.getId());
         customer.setEmail(customerDTO.getEmail());
-        customer.setCreated(customerDTO.getCreated());
-        customer.setUpdated(customerDTO.getUpdated());
-        customer.setIs_active(customerDTO.is_active());
+        customer.setCreated(created);
+        customer.setActivate(true);
         return customer;
     }
 
     public CustomerDTO map(Customer customer) {
         return CustomerDTO.builder()
-                .created(customer.getCreated())
-                .updated(customer.getUpdated())
+                .id(customer.getId())
                 .fullName(customer.getFullName())
                 .phone(customer.getPhone())
-                .id(customer.getId())
                 .email(customer.getEmail())
-                .is_active(customer.is_active())
                 .build();
     }
 
@@ -48,9 +42,10 @@ public class CustomerMap {
         customer.setPhone(customerDTO.getPhone());
         customer.setId(customerDTO.getId());
         customer.setEmail(customerDTO.getEmail());
-        customer.setUpdated(customerDTO.getUpdated());
-        customer.setIs_active(customerDTO.is_active());
         customer.setUpdated(dateNow.getTime());
         return customerRepository.save(customer);
     }
+
+
+
 }

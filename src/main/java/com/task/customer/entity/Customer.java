@@ -1,9 +1,9 @@
 package com.task.customer.entity;
 
+import com.task.customer.exception.FieldCorrectException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Data
@@ -24,55 +24,54 @@ public class Customer {
 
     private long updated;
 
-    private boolean is_active;
+    private boolean activate;
 
 
-    public static boolean firstName(String firstName) {
+    public static boolean fullNameIsCorrect(String firstName) {
         return firstName.matches("^[A-Z][a-z]{2,}(?: [A-Z][a-z]*)*$");
     }
 
     public void setFullName(String fullName) {
-        if (firstName(fullName) == true) {
+        if (fullNameIsCorrect(fullName) == true) {
             this.fullName = fullName;
         } else {
-            throw new RuntimeException("FullName is not correct");
+            throw new FieldCorrectException("FullName is not correct");
         }
     }
 
 
-    public void setCreated(long created) {
-        Date dateNow = new Date();
-        created = dateNow.getTime();
-        this.created = created;
+    public static  boolean emailIsCorrect(String email){
+        return email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
     }
-
 
     public void setEmail(String email) {
-        if (!email.contains("@")) {
-            throw new RuntimeException("\n" +
-                    "Email must have the @ symbol");
+        if (emailIsCorrect(email) == true){
+            this.email = email;
+        }else {
+            throw new FieldCorrectException("Email is not correct");
         }
-        this.email = email;
     }
 
-    public void setIs_NoActive(boolean is_noActive) {
-        this.is_active = false;
-    }
 
-    public void setIs_active(boolean is_active) {
-        this.is_active = true;
-    }
-
-    public static boolean phoneNumber(String phoneNumber) {
-        return phoneNumber.matches("^(\\+\\d{1,3}( )?)?((\\(\\d{1,3}\\))|\\d{1,3})[- .]?\\d{3,4}[- .]?\\d{4}$");
+    public static boolean phoneNumberIsCorrect(String phoneNumber) {
+        boolean correctPhone = false;
+        if (phoneNumber != null){
+            correctPhone =  phoneNumber.matches("^(\\\\+\\\\d{1,3}( )?)?((\\\\(\\\\d{1,3}\\\\))|\\\\d{1,3})[- .]?\\\\d{3,4}[- .]?\\\\d{4}$");
+        }
+        return correctPhone;
 
     }
 
     public void setPhone(String phone) {
-        if (phoneNumber(phone) == true) {
-            this.phone = phone;
-        } else {
-            throw new RuntimeException("Phone number is not correct");
+        if (phone != null) {
+            if (phoneNumberIsCorrect(phone) == true || !phone.startsWith("+")) {
+                this.phone = "+" + phone;
+            }else{
+                throw  new FieldCorrectException("Phone number is not correct!");
+            }
+        }else {
+            this.phone = null;
         }
+
     }
 }
