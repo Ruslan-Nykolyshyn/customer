@@ -6,23 +6,18 @@ import com.task.customer.exception.DataNotCorrectException;
 import com.task.customer.map.CustomerMap;
 import com.task.customer.repository.CustomerRepository;
 import com.task.customer.service.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
     private CustomerRepository customerRepository;
 
     private CustomerMap customerMap;
 
-    @Autowired
-    public CustomerServiceImpl(CustomerRepository customerRepository, CustomerMap customerMap) {
-        this.customerRepository = customerRepository;
-        this.customerMap = customerMap;
-    }
 
     @Override
     public Customer create(CustomerDTO customerDTO) {

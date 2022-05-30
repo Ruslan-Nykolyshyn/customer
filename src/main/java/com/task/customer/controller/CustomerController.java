@@ -29,8 +29,7 @@ public class CustomerController {
     @ResponseBody
     public CustomerDTO create(@RequestBody() CustomerDTO customerDTO) {
         log.info("Customer has created!!");
-        customerMap.map(customerService.create(customerDTO));
-        return customerMap.map(customerMap.map(customerDTO));
+        return customerMap.map(customerService.create(customerDTO));
     }
 
     @GetMapping("/customers")
@@ -56,7 +55,6 @@ public class CustomerController {
     @ResponseBody
     private CustomerDTO update(@RequestBody() CustomerDTO customerDTO) {
         log.info("Customer with ID -> " + customerDTO.getId() + " and \n Name -> " + customerDTO.getFullName() + " updated :) ");
-        customerMap.map(customerService.update(customerDTO));
         return  customerMap.map(customerService.update(customerDTO));
     }
 
@@ -64,7 +62,6 @@ public class CustomerController {
     @ResponseBody
     public CustomerDTO delete(@PathVariable(name = "id") Long id) {
         log.info("Customer with ID -> " + id + " has been delete");
-        customerMap.map(customerService.delete(id));
         return customerMap.map(customerService.delete(id));
     }
 }
