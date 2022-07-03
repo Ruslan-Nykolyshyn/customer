@@ -1,0 +1,10 @@
+create table customer (
+                          id bigint not null,
+                          created bigint,
+                          updated bigint,
+                          full_name varchar(50) not null,
+                          email varchar(100) not null unique,
+                          phone varchar(14) unique,
+                          activate bool,
+                          primary key(id)
+);
